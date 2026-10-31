@@ -19,17 +19,17 @@ for p in /usr/local/bin/rystic "${HOME:-}/.local/bin/rystic"; do
 done
 
 case $(uname -s 2>/dev/null) in
-MINGW* | MSYS* | CYGWIN*) windows=1 ;;
+MINGW* | MSYS* | CYGWIN* | Windows_NT*) windows=1 ;;
 *) windows="" ;;
 esac
 
-if [ -n "$windows" ]; then
-  user="Rystic: the rystic CLI is not on your PATH, so the Rystic MCP server cannot start. The installer covers macOS and Linux; for Windows, see https://www.rystic.ai/docs/installation, then restart Claude Code."
-  ctx="The rystic CLI is not on PATH, so the rystic MCP server from the Rystic plugin did not start and its tools are missing. Rystic's installer covers macOS and Linux only; if the user wants Rystic simulators on Windows, point them to https://www.rystic.ai/docs/installation."
-elif [ -n "$found" ]; then
+if [ -n "$found" ]; then
   dir=$(esc "$(dirname "$found")")
   user="Rystic: the rystic CLI is installed in $dir, but that folder is not on the PATH Claude Code started with, so the Rystic MCP server cannot start. Add $dir to your PATH (for example in your shell profile), then restart Claude Code."
   ctx="The rystic CLI is installed in $dir, but that folder is not on Claude Code's PATH, so the rystic MCP server from the Rystic plugin did not start and its tools are missing. If the user wants Rystic simulators, help them add $dir to the PATH Claude Code starts with, then restart Claude Code."
+elif [ -n "$windows" ]; then
+  user="Rystic: the rystic CLI is not on your PATH, so the Rystic MCP server cannot start. The installer covers macOS and Linux; for Windows, see https://www.rystic.ai/docs/installation, then restart Claude Code."
+  ctx="The rystic CLI is not on PATH, so the rystic MCP server from the Rystic plugin did not start and its tools are missing. Rystic's installer covers macOS and Linux only; if the user wants Rystic simulators on Windows, point them to https://www.rystic.ai/docs/installation."
 else
   user="Rystic: the rystic CLI is not installed, so the Rystic MCP server cannot start. Install it on macOS or Linux by running this in a terminal:\\n\\n  curl -fsSL https://www.rystic.ai/install.sh | sh\\n\\nthen reconnect the rystic server from /mcp. If the installer says its folder is not on your PATH, add it and restart Claude Code."
   ctx="The rystic CLI is not installed, so the rystic MCP server from the Rystic plugin did not start and its tools are missing. If the user wants Rystic simulators, offer to install it with: curl -fsSL https://www.rystic.ai/install.sh | RYSTIC_NO_LOGIN=1 sh (macOS or Linux; it prints the folder it installed to, which must be on Claude Code's PATH). Then ask the user to reconnect the rystic server from /mcp and sign in: with the server's sign_in tool if it lists one, otherwise by running rystic login in a terminal."
