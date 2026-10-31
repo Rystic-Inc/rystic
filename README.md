@@ -24,7 +24,7 @@ Restart the client and approve the `rystic` server when it asks.
 
 ## Install as a plugin
 
-The repository is also a plugin for each client below. Each plugin starts `rystic mcp`, so install the CLI first.
+The repository is also a plugin for each client below. Each plugin starts `rystic mcp`, so install the CLI first. When Claude Code cannot find `rystic` on its PATH, the Claude Code plugin says how to install it, or which folder to add to PATH, as a session starts or resumes.
 
 | Client | Command |
 |---|---|
