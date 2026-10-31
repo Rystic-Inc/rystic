@@ -77,8 +77,9 @@ printf '%s' "$RYSTIC_KEY" | rystic login --token-stdin; unset RYSTIC_KEY
 ```
 
 with the key in the `RYSTIC_KEY` environment variable. Better still, ask the
-user to run `rystic login --token-stdin` themselves and paste the key there,
-so it never passes through your terminal.
+user to run `rystic login --token-stdin` themselves, paste the key, press Enter
+and then Ctrl-D, so it never passes through your terminal. The command shows no
+prompt, and the pasted key appears on their screen.
 
 ## 3. Add the server to Cline
 
