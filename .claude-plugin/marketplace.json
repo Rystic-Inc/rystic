@@ -1,0 +1,18 @@
+{
+  "name": "rystic",
+  "owner": {
+    "name": "Rystic",
+    "email": "founders@rystic.ai"
+  },
+  "metadata": {
+    "description": "Rystic's plugins"
+  },
+  "plugins": [
+    {
+      "name": "rystic",
+      "source": "./",
+      "description": "Run stateful API simulators (Stripe, GitHub, Slack, Shopify and more) from your coding agent: start, seed, move the clock, inspect state and calls, diff state and save runs as test cases.",
+      "category": "development"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "rystic",
+  "version": "0.1.0",
+  "description": "Run stateful API simulators (Stripe, GitHub, Slack, Shopify and more) from your coding agent: start, seed, move the clock, inspect state and calls, diff state and save runs as test cases.",
+  "homepage": "https://www.rystic.ai/docs/mcp-server",
+  "repository": "https://github.com/Rystic-Inc/rystic",
+  "license": "MIT",
+  "author": {
+    "name": "Rystic",
+    "email": "founders@rystic.ai",
+    "url": "https://www.rystic.ai"
+  },
+  "keywords": [
+    "rystic",
+    "rystic simulator",
+    "rystic mcp"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Rystic",
+        "shortDescription": "API simulators for agent testing",
+        "developerName": "Rystic",
+        "category": "Developer Tools",
+        "websiteURL": "https://www.rystic.ai",
+        "logo": "./assets/logo.png",
+        "brandColor": "#4DB8FF",
+        "composerIcon": "./assets/logo.png",
+        "privacyPolicyURL": "https://www.rystic.ai/privacy",
+        "termsOfServiceURL": "https://www.rystic.ai/terms",
+        "defaultPrompt": [
+          "Start the Stripe simulator and seed a customer with a failing card",
+          "Move the simulator clock forward 30 days and show the webhooks it sent",
+          "Diff the simulator's state since I started and save this run as a test case"
+        ]
+      }
+    }
+  }
+}

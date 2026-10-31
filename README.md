@@ -22,6 +22,17 @@ rystic mcp install --client claude-code   # or cursor, codex, vscode, windsurf
 
 Restart the client and approve the `rystic` server when it asks.
 
+## Install as a plugin
+
+The repository is also a plugin for each client below. Each plugin starts `rystic mcp`, so install the CLI first.
+
+| Client | Command |
+|---|---|
+| Claude Code | `claude plugin marketplace add Rystic-Inc/rystic`, then `claude plugin install rystic@rystic` |
+| Codex | `codex plugin marketplace add Rystic-Inc/rystic` |
+| Gemini CLI | `gemini extensions install https://github.com/Rystic-Inc/rystic` |
+| Antigravity CLI | `agy plugin install https://github.com/Rystic-Inc/rystic` |
+
 ## Configure by hand
 
 Claude Code (`.mcp.json`) and Cursor (`.cursor/mcp.json`):
@@ -82,6 +93,10 @@ If the client cannot find `rystic`, set `command` to its absolute path (`command
 | `save_test_case` | saves the run as a regression test |
 
 The tool names say "twin", meaning a simulator.
+
+## What leaves your machine
+
+The plugin itself sends nothing: it starts `rystic mcp` on your machine. The `rystic` CLI calls `www.rystic.ai` to sign in, check for updates and download a simulator the first time you start it, and `registry.rystic.ai` when it runs a simulator in Docker. On the Free and Pro plans a running simulator checks in with `lease.rystic.ai` at start, every 30 seconds and on exit, carrying your API key and the windows in which it was in use, never your requests, data or hostname. Full list: https://www.rystic.ai/docs/cli#what-leaves-your-machine
 
 ## Documentation
 
