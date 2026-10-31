@@ -109,10 +109,15 @@ docker build -t rystic-mcp .
 docker run -i --rm rystic-mcp
 ```
 
+The image installs the newest CLI when it is built. Add
+`--build-arg RYSTIC_VERSION=<version>` to pin a release, or `--no-cache` to pick
+up a newer one on a rebuild.
+
 Building pulls the Debian base image from Docker Hub, installs packages from
 Debian's mirrors and downloads the CLI. Starting the server and listing its
-tools need no network or sign-in. Starting a simulator needs a signed-in CLI,
-so for everyday use install the CLI on your machine as above.
+tools need no network or sign-in. A simulator the server starts inside the
+container is reachable only from inside it, and needs a signed-in CLI there, so
+for everyday use install the CLI on your machine as above.
 
 ## Cline
 

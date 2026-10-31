@@ -13,10 +13,12 @@ Check whether it is already installed:
 rystic version
 ```
 
-If that fails with "command not found", install it (Mac or Linux, 64-bit):
+If that fails with "command not found", install it (Mac or Linux, 64-bit).
+`RYSTIC_NO_LOGIN=1` stops the installer from starting an interactive sign-in;
+step 2 signs in instead:
 
 ```sh
-curl -fsSL https://www.rystic.ai/install.sh | sh
+curl -fsSL https://www.rystic.ai/install.sh | RYSTIC_NO_LOGIN=1 sh
 ```
 
 The installer prints the path it installed to, such as `/usr/local/bin/rystic`
@@ -24,10 +26,18 @@ or `~/.local/bin/rystic`. If it notes that the directory is not on `PATH`, use
 that full path wherever these steps say `rystic`, including the `command` in
 step 3. Run `rystic version` again (or the full path) to confirm.
 
+Then check that this CLI has the MCP server:
+
+```sh
+rystic help mcp
+```
+
+If it reports an unknown command, run `rystic self-update` and check again.
+
 ## 2. Sign in
 
-The user must sign in once before simulators can be downloaded. The install
-may already have signed them in through the browser, so first check:
+The user must sign in once before simulators can be downloaded. First check
+whether they already have:
 
 ```sh
 rystic status --offline
@@ -63,10 +73,12 @@ stdin rather than as an argument, so it stays out of `rystic`'s arguments and
 the process list:
 
 ```sh
-printf '%s' "$RYSTIC_KEY" | rystic login --token-stdin
+printf '%s' "$RYSTIC_KEY" | rystic login --token-stdin; unset RYSTIC_KEY
 ```
 
-with the key in the `RYSTIC_KEY` environment variable.
+with the key in the `RYSTIC_KEY` environment variable. Better still, ask the
+user to run `rystic login --token-stdin` themselves and paste the key there,
+so it never passes through your terminal.
 
 ## 3. Add the server to Cline
 
