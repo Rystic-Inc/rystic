@@ -98,6 +98,33 @@ The tool names say "twin", meaning a simulator.
 
 The plugin itself sends nothing: it starts `rystic mcp` on your machine. The `rystic` CLI calls `www.rystic.ai` to sign in, check for updates and download a simulator the first time you start it, and `registry.rystic.ai` when it runs a simulator in Docker. On the Free and Pro plans a running simulator checks in with `lease.rystic.ai` at start, every 30 seconds and on exit, carrying your API key and the windows in which it was in use, never your requests, data or hostname. Full list: https://www.rystic.ai/docs/cli#what-leaves-your-machine
 
+## Run in a container
+
+The [Dockerfile](Dockerfile) builds an image that runs `rystic mcp` on stdio. It
+installs the Linux build of the `rystic` CLI that www.rystic.ai names for the
+image's platform and checks its SHA-256 before installing it.
+
+```bash
+docker build -t rystic-mcp .
+docker run -i --rm rystic-mcp
+```
+
+The image installs the newest CLI when it is built. Add
+`--build-arg RYSTIC_VERSION=<version>` to pin a release, or `--no-cache` to pick
+up a newer one on a rebuild.
+
+Building pulls the Debian base image from Docker Hub, installs packages from
+Debian's mirrors and downloads the CLI. Starting the server and listing its
+tools need no network or sign-in. A simulator the server starts inside the
+container is reachable only from inside it, and needs a signed-in CLI there, so
+for everyday use install the CLI on your machine as above.
+
+## Cline
+
+Cline can install the server for you by following [llms-install.md](llms-install.md),
+which covers installing the CLI, signing in and adding the server to Cline's MCP
+settings.
+
 ## Documentation
 
 Full reference: https://www.rystic.ai/docs/mcp-server
