@@ -23,7 +23,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/check-rystic.sh\"",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/check-rystic.sh\"; exit 0",
             "timeout": 5
           }
         ]

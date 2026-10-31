@@ -2,7 +2,9 @@
 # SessionStart hook for Claude Code: when the rystic CLI, which this plugin's
 # MCP server runs, is not on PATH, print how to fix it, for the user
 # (systemMessage) and for Claude (additionalContext). Silent when rystic is on
-# PATH.
+# PATH. The hook command ends in `exit 0`, so a shell that cannot run this
+# script (PowerShell, where Claude Code runs hooks without Git Bash) stays
+# silent too.
 command -v rystic >/dev/null 2>&1 && exit 0
 
 # esc makes $1 safe inside a JSON string.
@@ -16,7 +18,15 @@ for p in /usr/local/bin/rystic "${HOME:-}/.local/bin/rystic"; do
   fi
 done
 
-if [ -n "$found" ]; then
+case $(uname -s 2>/dev/null) in
+MINGW* | MSYS* | CYGWIN*) windows=1 ;;
+*) windows="" ;;
+esac
+
+if [ -n "$windows" ]; then
+  user="Rystic: the rystic CLI is not on your PATH, so the Rystic MCP server cannot start. The installer covers macOS and Linux; for Windows, see https://www.rystic.ai/docs/installation, then restart Claude Code."
+  ctx="The rystic CLI is not on PATH, so the rystic MCP server from the Rystic plugin did not start and its tools are missing. Rystic's installer covers macOS and Linux only; if the user wants Rystic simulators on Windows, point them to https://www.rystic.ai/docs/installation."
+elif [ -n "$found" ]; then
   dir=$(esc "$(dirname "$found")")
   user="Rystic: the rystic CLI is installed in $dir, but that folder is not on the PATH Claude Code started with, so the Rystic MCP server cannot start. Add $dir to your PATH (for example in your shell profile), then restart Claude Code."
   ctx="The rystic CLI is installed in $dir, but that folder is not on Claude Code's PATH, so the rystic MCP server from the Rystic plugin did not start and its tools are missing. If the user wants Rystic simulators, help them add $dir to the PATH Claude Code starts with, then restart Claude Code."
