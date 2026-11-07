@@ -116,8 +116,9 @@ up a newer one on a rebuild. A version pins a name; to pin the bytes, add
 `--build-arg RYSTIC_SHA256=<sha256>` with the archive's checksum, and the build
 checks the download against your value. The checksum is the
 `rystic_<version>_linux_<arch>.tar.gz` line of `checksums.txt` on the
-[release](https://github.com/Rystic-Inc/rystic/releases). One checksum covers
-one platform, so a build that pins it is for that platform alone.
+[release](https://github.com/Rystic-Inc/rystic/releases), with the version
+written without its leading `v`, as `0.0.38`. One checksum covers one platform,
+so a build that pins it is for that platform alone.
 
 Building pulls the Debian base image from Docker Hub, installs packages from
 Debian's mirrors and downloads the CLI. Starting the server and listing its
