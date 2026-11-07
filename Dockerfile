@@ -15,15 +15,14 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 RUN set -eu; \
-    if [ -n "$RYSTIC_SHA256" ] && [ "$RYSTIC_VERSION" = latest ]; then \
-      echo "RYSTIC_SHA256 pins one archive: set RYSTIC_VERSION too" >&2; exit 1; \
-    fi; \
+    if [ -n "$RYSTIC_SHA256" ]; then case "$RYSTIC_VERSION" in ''|latest) \
+      echo "RYSTIC_SHA256 pins one archive: set RYSTIC_VERSION too" >&2; exit 1;; esac; fi; \
     arch="${TARGETARCH:-$(dpkg --print-architecture)}"; \
     rel="$(curl -fsSL "https://www.rystic.ai/api/cli-release?os=linux&arch=${arch}&version=${RYSTIC_VERSION}&source=docker")"; \
     url="$(printf '%s' "$rel" | jq -er .url)"; \
-    named="$(printf '%s' "$rel" | jq -er .sha256)"; \
+    named="$(printf '%s' "$rel" | jq -r '.sha256 // empty' | tr 'A-Z' 'a-z')"; \
     sum="$(printf '%s' "${RYSTIC_SHA256:-$named}" | tr 'A-Z' 'a-z')"; \
-    if [ "$sum" != "$named" ]; then \
+    if [ -n "$RYSTIC_SHA256" ] && [ -n "$named" ] && [ "$sum" != "$named" ]; then \
       echo "RYSTIC_SHA256 is $sum but the release names $named" >&2; exit 1; \
     fi; \
     curl -fsSL "$url" -o /tmp/rystic.tar.gz; \
